@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="40" fill="url(#grad)" />
+  <!-- Medical Cross & Pulse Graph -->
+  <g fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Heart pulse line -->
+    <path d="M36 96h24l12-28 16 56 16-44 12 24 16-8h24" stroke-width="7" />
+    <!-- Medical Shield/Cross Top Indicator -->
+    <circle cx="96" cy="44" r="10" fill="#38bdf8" stroke="none" />
+    <path d="M96 34v20M86 44h20" stroke="#ffffff" stroke-width="4" />
+  </g>
+</svg>

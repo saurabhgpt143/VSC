@@ -1,0 +1,6 @@
+{
+  "name": "Vrindavan Symptom Checker",
+  "description": "Interactive body map medical symptom assessment and clinical triage system with AI insights and emergency red-flag screening.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
