@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { SymptomItem, BodyRegion } from '../types';
 import { SYMPTOMS_DATABASE, BODY_REGIONS_CONFIG } from '../data/symptomsData';
 import { Search, AlertTriangle, Plus, Check, X, Sparkles, MapPin, Filter } from 'lucide-react';
+import { VoiceInputButton } from './VoiceInputButton';
 
 interface SymptomSelectorProps {
   selectedRegion: BodyRegion | null;
@@ -114,29 +115,43 @@ export const SymptomSelector: React.FC<SymptomSelectorProps> = ({
           </div>
         )}
 
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={
+        {/* Search Bar with Voice Input */}
+        <div className="relative flex items-center gap-1.5">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={
+                isHindi
+                  ? 'लक्षण खोजें या माइक दबाकर बोलें (उदा: सिरदर्द, बुखार, उल्टी)...'
+                  : 'Search symptoms or speak (e.g., headache, fever, nausea)...'
+              }
+              className="w-full pl-9 pr-8 py-2 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          <VoiceInputButton
+            language={language}
+            onTranscript={(text) => {
+              setSearchQuery(text);
+            }}
+            tooltipText={
               isHindi
-                ? 'लक्षण खोजें (उदा: सिरदर्द, बुखार, छाती में दर्द, उल्टी)...'
-                : 'Search symptoms (e.g., headache, chest tightness, fever)...'
+                ? 'माइक दबाकर लक्षण बोलें (Voice Search)'
+                : 'Speak to search symptoms (Voice Search)'
             }
-            className="w-full pl-9 pr-8 py-2 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
           />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
         </div>
 
         {/* Filter Quick Badges */}

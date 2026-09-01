@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AssessmentResult, PatientProfile, SymptomItem, ChatMessage } from '../types';
 import { Send, Bot, User, Sparkles, AlertCircle, X, RefreshCw, MessageSquare } from 'lucide-react';
+import { VoiceInputButton } from './VoiceInputButton';
 
 interface AIAssistantChatProps {
   assessment: AssessmentResult | null;
@@ -227,21 +228,46 @@ export const AIAssistantChat: React.FC<AIAssistantChatProps> = ({
         }}
         className="p-3 bg-white border-t border-slate-200 flex items-center gap-2"
       >
-        <input
-          type="text"
-          value={inputQuery}
-          onChange={(e) => setInputQuery(e.target.value)}
-          placeholder={
+        <div className="relative flex-1 flex items-center">
+          <input
+            type="text"
+            value={inputQuery}
+            onChange={(e) => setInputQuery(e.target.value)}
+            placeholder={
+              isHindi
+                ? 'लक्षणों या दवाओं के बारे में पूछें (या माइक दबाकर बोलें)...'
+                : 'Type a question or speak via mic...'
+            }
+            className="w-full pl-3.5 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          />
+          {inputQuery && (
+            <button
+              type="button"
+              onClick={() => setInputQuery('')}
+              className="absolute right-2.5 text-slate-400 hover:text-slate-600 p-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        <VoiceInputButton
+          language={language}
+          onTranscript={(text) => {
+            setInputQuery((prev) => (prev ? `${prev} ${text}` : text));
+          }}
+          tooltipText={
             isHindi
-              ? 'अपने लक्षणों के बारे में कोई भी प्रश्न पूछें...'
-              : 'Type a question about symptoms, home safety, or medications...'
+              ? 'माइक दबाकर अपना प्रश्न बोलें (Voice Dictation)'
+              : 'Speak your question (Voice Dictation)'
           }
-          className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
         />
+
         <button
           type="submit"
           disabled={!inputQuery.trim() || isLoading}
           className="p-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white rounded-xl shadow-xs transition-all active:scale-95 shrink-0"
+          title={isHindi ? 'संदेश भेजें' : 'Send message'}
         >
           <Send className="w-4 h-4" />
         </button>
